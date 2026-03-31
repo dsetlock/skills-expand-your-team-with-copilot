@@ -617,6 +617,10 @@ footer {
   position: absolute;
   top: 10px;
   right: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
 }
 
 #user-status {
@@ -663,4 +667,29 @@ footer {
 
 #logout-button:hover {
   background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Dark mode theme */
+[data-theme="dark"] {
+  --background: #121212;
+  --surface: #1e1e1e;
+  --text-primary: #e0e0e0;
+  --text-secondary: #a0a0a0;
+  --border: #333333;
+  --border-light: #2a2a2a;
+  --border-focus: #444444;
+  --primary: #7986cb;
+  --primary-light: #9fa8da;
+  --primary-dark: #3949ab;
+  --success-light: #1b3a1c;
+  --warning-light: #3a2e00;
+  --error-light: #3a0a0a;
+  --info-light: #0a2a30;
+}
+
+[data-theme="dark"] input,
+[data-theme="dark"] select {
+  background-color: var(--border-light);
+  color: var(--text-primary);
+  border-color: var(--border);
 }
