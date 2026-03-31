@@ -472,6 +472,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Fallback for copying text when Clipboard API is unavailable
+  function fallbackCopyText(text) {
+    try {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.opacity = "0";
+      document.body.appendChild(textArea);
+      textArea.select();
+      const success = document.execCommand("copy");
+      document.body.removeChild(textArea);
+      return success;
+    } catch (err) {
+      console.error("Fallback copy failed:", err);
+      return false;
+    }
+  }
+
   // Function to render a single activity card
   function renderActivityCard(name, details) {
     const activityCard = document.createElement("div");
@@ -569,6 +587,12 @@ document.addEventListener("DOMContentLoaded", () => {
         `
         }
       </div>
+      <div class="share-buttons">
+        <span class="share-label">Share:</span>
+        <button class="share-btn share-twitter" title="Share on X (Twitter)">𝕏</button>
+        <button class="share-btn share-facebook" title="Share on Facebook">f</button>
+        <button class="share-btn share-copy" title="Copy link">🔗</button>
+      </div>
     `;
 
     // Add click handlers for delete buttons
@@ -586,6 +610,46 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
     }
+
+    // Add event listeners for share buttons
+    const shareText = `Check out ${name} at Mergington High School! ${details.description}`;
+    const shareUrl = window.location.href;
+
+    activityCard.querySelector(".share-twitter").addEventListener("click", () => {
+      const tweetUrl =
+        `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+      window.open(tweetUrl, "_blank", "noopener,noreferrer");
+    });
+
+    activityCard.querySelector(".share-facebook").addEventListener("click", () => {
+      const fbUrl =
+        `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+      window.open(fbUrl, "_blank", "noopener,noreferrer");
+    });
+
+    activityCard.querySelector(".share-copy").addEventListener("click", (event) => {
+      const copyBtn = event.currentTarget;
+      const markCopied = () => {
+        copyBtn.textContent = "✓";
+        copyBtn.classList.add("share-copied");
+        setTimeout(() => {
+          copyBtn.textContent = "🔗";
+          copyBtn.classList.remove("share-copied");
+        }, 2000);
+      };
+
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(shareUrl).then(markCopied).catch(() => {
+          if (fallbackCopyText(shareUrl)) {
+            markCopied();
+          }
+        });
+      } else {
+        if (fallbackCopyText(shareUrl)) {
+          markCopied();
+        }
+      }
+    });
 
     activitiesList.appendChild(activityCard);
   }
