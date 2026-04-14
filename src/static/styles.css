@@ -468,6 +468,72 @@ button {
   font-size: 0.85rem;
 }
 
+/* Social Share Buttons */
+.share-buttons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-top: 8px;
+  margin-top: 8px;
+  border-top: 1px solid var(--border-light);
+}
+
+.share-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-right: 2px;
+}
+
+.share-btn {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  line-height: 1;
+}
+
+.share-twitter {
+  background-color: #000000;
+  color: white;
+}
+
+.share-twitter:hover {
+  background-color: #333333;
+}
+
+.share-facebook {
+  background-color: #1877f2;
+  color: white;
+  font-family: Georgia, serif;
+}
+
+.share-facebook:hover {
+  background-color: #166fe5;
+}
+
+.share-copy {
+  background-color: var(--border);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.share-copy:hover {
+  background-color: var(--border-focus);
+}
+
+.share-copied {
+  background-color: var(--success) !important;
+  color: white !important;
+}
+
 footer {
   text-align: center;
   margin-top: 20px;
